@@ -1,4 +1,4 @@
-# enviroment variable to connect firebase DB
+# enviroment variable to connect firebase DB.
 
   - apiKey
   - authDomain
