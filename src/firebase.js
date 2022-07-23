@@ -1,21 +1,28 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import dotenv from 'dotenv'
+const dotEnv=dotenv.config()
 // Follow this pattern to import other Firebase services
 // import { } from 'firebase/<service>';
 
 // TODO: Replace the following with your app's Firebase project configuration
+console.log(process.env.apiKey)
 const firebaseConfig = {
-  apiKey: "AIzaSyBmN7eC2wj-m-AW994XKXpV8Iakcconnww",
-  authDomain: "fir-prueba-47f46.firebaseapp.com",
-  projectId: "fir-prueba-47f46",
-  storageBucket: "fir-prueba-47f46.appspot.com",
-  messagingSenderId: "552025277321",
-  appId: "1:552025277321:web:33f52bfcd302f0183bd758"
+  apiKey: process.env.apiKey,
+  authDomain:process.env.authDomain,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-module.exports{
-  db,
+export const getContacts = async (req, res) => {
+  const citiesCol = collection(db, 'contacts');
+  const citySnapshot = await getDocs(citiesCol);
+  const cityList = citySnapshot.docs.map(doc => doc.data());
+  res.json(cityList)
 }
+
